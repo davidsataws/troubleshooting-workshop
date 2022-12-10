@@ -110,7 +110,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     html.format(SSMTestString=ssmoutput, SSMTime=ssm_time, DDBTestString=ddboutput,
                                 DDBTime=ddb_time, S3TestString=s3output, S3Time=s3_time, MetadataTestString=mdoutput,
                                 MetaDataTime=md_time, ExtServerTestString=extoutput, ExtGetTime=ext_time,
-                                DNSTestString=dnsoutput, DNSGetTime=dns_time,BucketNameString=self.bucket,RegionNameString=self.region,
+                                DNSTestString=dnsoutput, DNSGetTime=dns_time,BucketNameString=self.bucket,RegionNameString=self.region),
                     "utf-8"
                 )
             )
