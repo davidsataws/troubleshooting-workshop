@@ -41,7 +41,7 @@ xray_recorder.configure(service='AWS Support 302 Workshop Networking App', conte
 logging.getLogger('aws_xray_sdk').setLevel(logging.ERROR)
 xfer_config = TransferConfig(use_threads=False)
 logging.basicConfig(filename='server.log', 
-                    format='%(asctime)s:SUP302NetworkApp:%(levelname)s - %(message)s',
+                    format='%(asctime)s:SupportTroubleshootingNetworkApp:%(levelname)s - %(message)s',
                     level=logging.WARNING)
 
 # HTML code template for the health check page.
@@ -110,7 +110,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     html.format(SSMTestString=ssmoutput, SSMTime=ssm_time, DDBTestString=ddboutput,
                                 DDBTime=ddb_time, S3TestString=s3output, S3Time=s3_time, MetadataTestString=mdoutput,
                                 MetaDataTime=md_time, ExtServerTestString=extoutput, ExtGetTime=ext_time,
-                                DNSTestString=dnsoutput, DNSGetTime=dns_time),
+                                DNSTestString=dnsoutput, DNSGetTime=dns_time,BucketNameString=self.bucket,RegionNameString=self.region,
                     "utf-8"
                 )
             )
@@ -161,7 +161,7 @@ def call_S3(region, bucket):
     start_time = datetime.now()
     session = boto3.Session()
 
-    # Get image from S3. Located at s3://sup302-us-east-2/artifacts/three-tier-webstack/s3_get_green_checkmark.png
+    # Get image from S3. Located at s3://BucketName/artifacts/three-tier-webstack/s3_get_green_checkmark.png
     try:
         # Setup client for S3 -- we use this for parameters used as a
         # enable/disable switch in the lab
