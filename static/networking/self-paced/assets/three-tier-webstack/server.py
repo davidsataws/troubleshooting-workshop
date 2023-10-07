@@ -17,7 +17,7 @@
 
 __author__    = "Seth Eliot, David Schliemann"
 __email__     = "seliot@amazon.com, schliema@amazon.com"
-__copyright__ = "Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved."
+__copyright__ = "Copyright 2023 Amazon.com, Inc. or its affiliates. All Rights Reserved."
 __credits__   = ["Seth Eliot", "Adrian Hornsby", "David Schliemann"]
 
 import sys
@@ -26,6 +26,7 @@ import boto3
 import random
 import logging
 import requests
+import socket
 import dns.resolver
 from datetime import datetime
 from boto3.s3.transfer import TransferConfig
@@ -120,6 +121,41 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             return
 
+        # Bonus content!
+        if self.path == '/bonus':
+
+            # Call API server.
+            # This consists of two tests:
+            # 1.) Establish a TCP connection (transport layer network connectivity)
+            # 2.) Make an HTTP request (HTTP server health).
+            apiconn, api_time = call_API()
+            apihttp, api_http_time = call_APIHTTP()
+
+            # Transform retults into colour-coded HTML
+            apioutput = '<span class="w3-text-green">SUCCESS</span>' if apiconn == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
+            apihttpoutput = '<span class="w3-text-green">SUCCESS</span>' if apihttp == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
+   
+            # Send successful response status code.
+            self.send_response(200)
+
+            # Send headers.
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+
+            # Get HTML template.
+            f = open(curdir + sep + "bonus.html", 'r')
+            html = f.read()
+
+            # Fill in template and write html output.
+            self.wfile.write(
+                bytes(
+                    html.format(APITestString=apioutput, APIHTTPTestString=apihttpoutput,
+                                APITime=api_time, APIHttpTime=api_http_time),
+                    "utf-8"
+                )
+            )
+            return
+
         # Healthcheck request - this will be used by the Elastic Load Balancer.
         # Note we send a custom response code (HTTP 299) to indicate success.
 
@@ -177,6 +213,53 @@ def call_S3(region, bucket):
     s3time = (end_time - start_time)
 
     return result, round(s3time.total_seconds() * 1000,2)
+
+
+# Check TCP connectivity to API server
+# Parameters:
+# None
+# Returns:
+# result - result of function, SUCCESS or FAILED
+# time_taken - time taken for this function to execute.
+def call_API():
+    start_time = datetime.now()
+    try:
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.settimeout(5)
+        s.connect(("mysite.supportworkshopapi.com", 80))
+        s.shutdown(socket.SHUT_RDWR); 
+        s.close()
+        result = "SUCCESS"
+    except Exception as e:
+        logging.warning('TCP connect to mysite.supportworkshopapi.com failed.')
+        logging.warning(e)
+        result = "FAILED"
+
+    end_time = datetime.now()
+    api_conn_time = (end_time - start_time)
+    return result, round(api_conn_time.total_seconds() * 1000,2)
+
+# Check HTTP health of API server
+# Parameters:
+# None
+# Returns:
+# result - result of function, SUCCESS or FAILED
+# time_taken - time taken for this function to execute.
+def call_APIHTTP():
+    start_time = datetime.now()
+    try:
+        requests.get("http://mysite.supportworkshopapi.com", timeout=5)
+        result = "SUCCESS"
+    except Exception as e:
+        logging.warning('Call to mysite.supportworkshopapi.com failed.')
+        logging.warning(e)
+        result = "FAILED"
+
+    end_time = datetime.now()
+    api_http_time = (end_time - start_time)
+
+    return result, round(api_http_time.total_seconds() * 1000,2)
+
 
 # Call VPC DNS to ensure resolution working.
 # Parameters:
