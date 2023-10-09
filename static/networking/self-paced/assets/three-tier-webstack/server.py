@@ -226,12 +226,12 @@ def call_API():
     try:
         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.settimeout(5)
-        s.connect(("mysite.supportworkshopapi.com", 80))
+        s.connect(("rsapi.supportworkshopapi.com", 80))
         s.shutdown(socket.SHUT_RDWR); 
         s.close()
         result = "SUCCESS"
     except Exception as e:
-        logging.warning('TCP connect to mysite.supportworkshopapi.com failed.')
+        logging.warning('TCP connect to rsapi.supportworkshopapi.com failed.')
         logging.warning(e)
         result = "FAILED"
 
@@ -248,10 +248,10 @@ def call_API():
 def call_APIHTTP():
     start_time = datetime.now()
     try:
-        requests.get("http://mysite.supportworkshopapi.com", timeout=5)
+        requests.get("http://rsapi.supportworkshopapi.com", timeout=5)
         result = "SUCCESS"
     except Exception as e:
-        logging.warning('Call to mysite.supportworkshopapi.com failed.')
+        logging.warning('Call to rsapi.supportworkshopapi.com failed.')
         logging.warning(e)
         result = "FAILED"
 
