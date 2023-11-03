@@ -298,7 +298,7 @@ def call_extServer():
     subsegment = xray_recorder.begin_subsegment('External Dependency')
     start_time = datetime.now()
     try:
-        requests.get("https://1.1.1.1", timeout=5)
+        requests.get("http://1.1.1.1", timeout=5, allow_redirects=False)
         result = "SUCCESS"
     except Exception as e:
         logging.warning('Call to 1.1.1.1 failed.')
