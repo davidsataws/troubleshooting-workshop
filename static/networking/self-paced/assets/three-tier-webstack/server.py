@@ -9,7 +9,7 @@
 #
 # Licensed under the Apache 2.0 and MITnoAttr License.
 #
-# Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2024 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"). You may
 # not use this file except in compliance with the License. A copy of the 
@@ -38,7 +38,7 @@ from aws_xray_sdk.core import xray_recorder, patch_all
 patch_all()
 
 # Configure X-ray, logging and S3 transfer config.
-xray_recorder.configure(service='AWS Support 302 Workshop Networking App', context_missing='IGNORE_ERROR')
+xray_recorder.configure(service='AWS Support Workshop Networking App', context_missing='IGNORE_ERROR')
 logging.getLogger('aws_xray_sdk').setLevel(logging.ERROR)
 xfer_config = TransferConfig(use_threads=False)
 logging.basicConfig(filename='server.log', 
