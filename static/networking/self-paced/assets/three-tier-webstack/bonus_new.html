@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AWS Support Troubleshooting Workshop Bonus Exercises</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- This is a modified version of W3 School's Kitchensink template: https://www.w3schools.com/w3css/tryw3css_templates_black.htm -->
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+  <div class="w3-center">
+  <h4>AWS Support Troubleshooting Workshop Bonus Exercises</h4>
+  <h1 class="w3-xxxlarge w3-animate-bottom">Web Server Diagnostics</h1>
+    <div class="w3-padding-32">
+      <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">HELP</button>
+    </div>
+  </div>
+</header>
+
+<!-- Modal -->
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('id01').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Please follow the Workshop Page for step-by-step guidance, hints and tips.</h4>
+        <h5>Diagnostic information:</h5>
+      </header>
+      <div class="w3-padding">
+        <p>The tests on this webpage indicate which dependencies are functioning correctly within the webserver code.</p>
+        <p>Your task is to find out why some are failing and to fix them, without changing code on the webserver.</p>
+      </div>
+      <footer class="w3-container w3-theme-l1">
+        <p>Congratulations on getting to the bonus exercises - Good Luck!</p>
+      </footer>
+    </div>
+</div>
+
+<div id="APIHttpTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('APIHttpTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>API HTTP Health Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC. It also requires the API server to be running and for the request to successfully pass through the firewall.</p>
+      </div>
+    </div>
+</div>
+
+<div id="APITest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('APITest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>API TCP Connectivity Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC.</p>
+      </div>
+    </div>
+</div>
+
+<div id="CanaryTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('CanaryTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Canary Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test indicates the status of the <a href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#synthetics:/canary/detail/webapp-issue9-canary" target="_blank">CloudWatch Synthetics Canary</a> for the path: /issue_9/.</p>
+      </div>
+    </div>
+</div>
+
+<div id="AdminTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('AdminTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Admin Site Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls /issue_10/. This should be sent to the appropriate admin webservers.</p>
+      </div>
+    </div>
+</div>
+
+<div class="w3-row-padding w3-center w3-margin-top">
+<div class="w3-quarter">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="External Dependency Test Logo" style="width:20%"></h3><br>
+  <h3>API TCP Connectivity Test</h3>
+  <p>{APITestString}</p>
+  <p>Time to run test: {APITime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('APITest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+
+<div class="w3-quarter">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="External Dependency Test Logo" style="width:20%"></h3><br>
+  <h3>API HTTP Health Test</h3>
+  <p>{APIHTTPTestString}</p>
+  <p>Time to run test: {APIHttpTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('APIHttpTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+
+<div class="w3-quarter">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="Canary Test Logo" style="width:20%"></h3><br>
+  <h3>Canary Test</h3>
+  <p>{CanaryTestString}</p>
+  <p>Time to run test: {CanaryTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('CanaryTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+<div class="w3-quarter">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="Admin Site Test Logo" style="width:20%"></h3><br>
+  <h3>Admin Site Test</h3>
+  <p>{AdminTestString}</p>
+  <p>Time to run test: {AdminTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('AdminTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+</div>
+
+
+</body>
+</html>
