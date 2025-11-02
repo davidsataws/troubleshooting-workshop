@@ -1,151 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>AWS Support Troubleshooting Workshop Bonus Exercises</title>
+<title>AWS Support Troubleshooting Workshop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
 <link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<style>
+* {{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}}
+body {{
+  font-family: "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif;
+  background: #eaeded;
+  color: #16191f;
+  line-height: 1.5;
+}}
+.aws-header {{
+  background: #232f3e;
+  color: white;
+  padding: 16px 24px;
+  border-bottom: 4px solid #ff9900;
+}}
+.aws-header h1 {{
+  font-size: 20px;
+  font-weight: 400;
+}}
+.container {{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}}
+.page-header {{
+  background: white;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-left: 4px solid #ff9900;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}}
+.page-header h2 {{
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}}
+.page-header p {{
+  color: #545b64;
+}}
+.test-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}}
+.test-card {{
+  background: white;
+  border: 1px solid #d5dbdb;
+  border-radius: 2px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}}
+.test-card:hover {{
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}}
+.test-card h3 {{
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: #16191f;
+}}
+.test-status {{
+  font-size: 16px;
+  font-weight: 700;
+  margin: 12px 0;
+}}
+.w3-text-green {{
+  color: #1d8102;
+}}
+.w3-text-red {{
+  color: #d13212;
+}}
+.test-metric {{
+  color: #545b64;
+  font-size: 14px;
+  margin: 8px 0;
+}}
+.aws-button {{
+  background: #ff9900;
+  color: #16191f;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-top: 12px;
+  transition: background 0.2s;
+}}
+.aws-button:hover {{
+  background: #ec7211;
+}}
+.aws-button-secondary {{
+  background: white;
+  color: #16191f;
+  border: 1px solid #aab7b8;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}}
+.aws-button-secondary:hover {{
+  background: #fafafa;
+  border-color: #16191f;
+}}
+.modal {{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}}
+.modal-content {{
+  background: white;
+  max-width: 600px;
+  margin: 80px auto;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  position: relative;
+}}
+.modal-header {{
+  background: #232f3e;
+  color: white;
+  padding: 20px 24px;
+  border-bottom: 2px solid #ff9900;
+  position: relative;
+}}
+.modal-header h3 {{
+  font-size: 20px;
+  font-weight: 400;
+}}
+.modal-close {{
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  opacity: 0.8;
+  line-height: 1;
+}}
+.modal-close:hover {{
+  opacity: 1;
+}}
+.modal-body {{
+  padding: 24px;
+  color: #16191f;
+}}
+.modal-body a {{
+  color: #0073bb;
+  text-decoration: none;
+}}
+.modal-body a:hover {{
+  text-decoration: underline;
+}}
+</style>
 </head>
 <body>
-<!-- This is a modified version of W3 School's Kitchensink template: https://www.w3schools.com/w3css/tryw3css_templates_black.htm -->
 
-<!-- Header -->
-<header class="w3-container w3-theme w3-padding" id="myHeader">
-  <div class="w3-center">
-  <h4>AWS Support Troubleshooting Workshop Bonus Exercises</h4>
-  <h1 class="w3-xxxlarge w3-animate-bottom">Web Server Diagnostics</h1>
-    <div class="w3-padding-32">
-      <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">HELP</button>
-    </div>
+<div class="aws-header" style="display: flex; justify-content: space-between; align-items: center;">
+  <h1>AWS Support Troubleshooting Workshop</h1>
+  <img src="https://d0.awsstatic.com/logos/powered-by-aws-white.png" alt="Powered by AWS" style="height: 40px;">
+</div>
+
+<div class="container">
+  <div class="page-header">
+    <h2>Bonus Exercises - Web Server Diagnostics</h2>
+    <p>Test the connectivity and health of various AWS services and dependencies</p>
+    <button class="aws-button-secondary" onclick="document.getElementById('helpModal').style.display='block'" style="margin-top: 16px;">View Instructions</button>
   </div>
-</header>
 
-<!-- Modal -->
-<div id="id01" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1">
-        <span onclick="document.getElementById('id01').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>Please follow the Workshop Page for step-by-step guidance, hints and tips.</h4>
-        <h5>Diagnostic information:</h5>
-      </header>
-      <div class="w3-padding">
-        <p>The tests on this webpage indicate which dependencies are functioning correctly within the webserver code.</p>
-        <p>Your task is to find out why some are failing and to fix them, without changing code on the webserver.</p>
-      </div>
-      <footer class="w3-container w3-theme-l1">
-        <p>Congratulations on getting to the bonus exercises - Good Luck!</p>
-      </footer>
+  <div class="test-grid">
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>API TCP Connectivity</h3>
+      <div class="test-status">{APITestString}</div>
+      <div class="test-metric">Response time: {APITime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('apiModal').style.display='block'">Details</button>
     </div>
-</div>
 
-<div id="APIHttpTest" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1">
-        <span onclick="document.getElementById('APIHttpTest').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>API HTTP Health Test</h4>
-      </header>
-      <div class="w3-padding">
-        <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC. It also requires the API server to be running and for the request to successfully pass through the firewall.</p>
-      </div>
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>API HTTP Health</h3>
+      <div class="test-status">{APIHTTPTestString}</div>
+      <div class="test-metric">Response time: {APIHttpTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('apiHttpModal').style.display='block'">Details</button>
     </div>
-</div>
 
-<div id="APITest" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1">
-        <span onclick="document.getElementById('APITest').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>API TCP Connectivity Test</h4>
-      </header>
-      <div class="w3-padding">
-        <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC.</p>
-      </div>
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/cloudwatch.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>CloudWatch Canary</h3>
+      <div class="test-status">{CanaryTestString}</div>
+      <div class="test-metric">Response time: {CanaryTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('canaryModal').style.display='block'">Details</button>
     </div>
-</div>
 
-<div id="CanaryTest" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1">
-        <span onclick="document.getElementById('CanaryTest').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>Canary Test</h4>
-      </header>
-      <div class="w3-padding">
-        <p>This test indicates the status of the <a href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#synthetics:/canary/detail/webapp-issue9-canary" target="_blank">CloudWatch Synthetics Canary</a> for the path: /issue_9/.</p>
-      </div>
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/admin.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>Admin Site Test</h3>
+      <div class="test-status">{AdminTestString}</div>
+      <div class="test-metric">Response time: {AdminTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('adminModal').style.display='block'">Details</button>
     </div>
-</div>
-
-<div id="AdminTest" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-top">
-      <header class="w3-container w3-theme-l1">
-        <span onclick="document.getElementById('AdminTest').style.display='none'"
-        class="w3-button w3-display-topright">×</span>
-        <h4>Admin Site Test</h4>
-      </header>
-      <div class="w3-padding">
-        <p>This test calls /issue_10/. This should be sent to the appropriate admin webservers.</p>
-      </div>
-    </div>
-</div>
-
-<div class="w3-row-padding w3-center w3-margin-top">
-<div class="w3-quarter">
-  <div class="w3-card w3-container" style="min-height:460px">
-  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="External Dependency Test Logo" style="width:20%"></h3><br>
-  <h3>API TCP Connectivity Test</h3>
-  <p>{APITestString}</p>
-  <p>Time to run test: {APITime} ms</p>
-  <p><br></p>
-  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('APITest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
-  <p></p>
   </div>
 </div>
 
-
-<div class="w3-quarter">
-  <div class="w3-card w3-container" style="min-height:460px">
-  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="External Dependency Test Logo" style="width:20%"></h3><br>
-  <h3>API HTTP Health Test</h3>
-  <p>{APIHTTPTestString}</p>
-  <p>Time to run test: {APIHttpTime} ms</p>
-  <p><br></p>
-  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('APIHttpTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
-  <p></p>
+<div id="helpModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Workshop Instructions</h3>
+      <span class="modal-close" onclick="document.getElementById('helpModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p><strong>Follow the Workshop Page for step-by-step guidance, hints and tips.</strong></p>
+      <p style="margin-top: 12px;">The tests on this webpage indicate which dependencies are functioning correctly within the webserver code.</p>
+      <p style="margin-top: 12px;">Your task is to find out why some are failing and to fix them, without changing code on the webserver.</p>
+      <p style="margin-top: 16px; color: #1d8102; font-weight: 700;">Congratulations on getting to the bonus exercises - Good Luck!</p>
+    </div>
   </div>
 </div>
 
-
-<div class="w3-quarter">
-  <div class="w3-card w3-container" style="min-height:460px">
-  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="Canary Test Logo" style="width:20%"></h3><br>
-  <h3>Canary Test</h3>
-  <p>{CanaryTestString}</p>
-  <p>Time to run test: {CanaryTime} ms</p>
-  <p><br></p>
-  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('CanaryTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
-  <p></p>
+<div id="apiModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>API TCP Connectivity Test</h3>
+      <span class="modal-close" onclick="document.getElementById('apiModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC.</p>
+    </div>
   </div>
 </div>
 
-<div class="w3-quarter">
-  <div class="w3-card w3-container" style="min-height:460px">
-  <h3><img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="Admin Site Test Logo" style="width:20%"></h3><br>
-  <h3>Admin Site Test</h3>
-  <p>{AdminTestString}</p>
-  <p>Time to run test: {AdminTime} ms</p>
-  <p><br></p>
-  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('AdminTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
-  <p></p>
+<div id="apiHttpModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>API HTTP Health Test</h3>
+      <span class="modal-close" onclick="document.getElementById('apiHttpModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls the API server (rsapi.supportworkshopapi.com) in the TGW-peered VPC. It requires the appropriate network routing for traffic from the webapp VPC to the API VPC. It also requires the API server to be running and for the request to successfully pass through the firewall.</p>
+    </div>
   </div>
 </div>
+
+<div id="canaryModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>CloudWatch Canary Test</h3>
+      <span class="modal-close" onclick="document.getElementById('canaryModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test indicates the status of the <a href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#synthetics:/canary/detail/webapp-canary" target="_blank">CloudWatch Synthetics Canary</a> for the URL: http://{WebappDNS}/canary</p>
+    </div>
+  </div>
 </div>
 
+<div id="adminModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Admin Site Test</h3>
+      <span class="modal-close" onclick="document.getElementById('adminModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls http://{WebappDNS}/admin and should be sent to the appropriate admin webservers.</p>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
