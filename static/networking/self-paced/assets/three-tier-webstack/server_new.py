@@ -139,7 +139,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             canaryoutput = '<span class="w3-text-green">SUCCESS</span>' if canaryres == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
             adminpoutput = '<span class="w3-text-green">SUCCESS</span>' if adminres == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
 
-            # Send successful response status code.
+            print(f"canaryres: {canaryres}")
+            print(f"canaryoutput: {canaryoutput}")
+ # Send successful response status code.
             self.send_response(200)
 
             # Send headers.
@@ -155,35 +157,31 @@ class RequestHandler(BaseHTTPRequestHandler):
                 bytes(
                     html.format(APITestString=apioutput, APIHTTPTestString=apihttpoutput,
                                 CanaryTestString=canaryoutput, AdminTestString=adminpoutput,
-                                APITime=api_time, APIHttpTime=api_http_time, 
+                                APITime=api_time, APIHttpTime=api_http_time,
                                 CanaryTime=canaryres_time, AdminTime=admin_time),
                     "utf-8"
                 )
             )
             return
 
-
-        elif self.path == '/issue_9' or self.path == '/issue_9/':
+        elif self.path == '/canary' or self.path == '/canary/':
+            # Canary request - checking webserver is responding.
             # Return a success status code
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            message = "<h1>Success, welcome to the canary page.</h1>"
-
+            message = "<h1>Success, service responding</h1>"
             # Add metadata
             mdtime, mdtest, metadata  = get_metadata(True)
             message += metadata
 
             self.wfile.write(
                 bytes(
-                    hc_html.format(Title="canary", Content=message),
+                    hc_html.format(Title="Canary", Content=message),
                     "utf-8"
                 )
             )
-
-        # Healthcheck request - this will be used by the Elastic Load Balancer.
-        # Note we send a custom response code (HTTP 299) to indicate success.
 
         elif self.path == '/healthcheck':
             #subsegment = xray_recorder.begin_subsegment('/healthcheck')
@@ -454,7 +452,7 @@ def call_CANARY(region):
     session = boto3.Session()
     start_time = datetime.now()
     result = "FAILED"
-    canary_name = "webapp-issue9-canary"
+    canary_name = "webapp-canary"
 
     try:
         # Setup client for Synthetics
@@ -492,7 +490,7 @@ def call_ADMIN(region):
         for lb in response['LoadBalancers']:
             dns_name = lb['DNSName']
             break
-        resp = requests.get(f"http://{dns_name}/issue_10/", timeout=30)
+        resp = requests.get(f"http://{dns_name}/admin", timeout=30)
         if resp.status_code == 200:
             result = "SUCCESS"
     except Exception as e:
@@ -557,4 +555,3 @@ def run(argv):
 
 if __name__ == "__main__":
     run(sys.argv[1:])
-
