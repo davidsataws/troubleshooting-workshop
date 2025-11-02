@@ -62,9 +62,10 @@ hc_html = """
 # RequestHandler: Handle incoming HTTP Requests.
 # Response depends on type of request made.
 class RequestHandler(BaseHTTPRequestHandler):
-    def __init__(self, region, bucket, *args, **kwargs):
+    def __init__(self, region, bucket, dns_name, *args, **kwargs):
         self.region = region
         self.bucket = bucket
+        self.dns_name = dns_name
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
@@ -141,7 +142,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             print(f"canaryres: {canaryres}")
             print(f"canaryoutput: {canaryoutput}")
- # Send successful response status code.
+            # Send successful response status code.
             self.send_response(200)
 
             # Send headers.
@@ -158,7 +159,8 @@ class RequestHandler(BaseHTTPRequestHandler):
                     html.format(APITestString=apioutput, APIHTTPTestString=apihttpoutput,
                                 CanaryTestString=canaryoutput, AdminTestString=adminpoutput,
                                 APITime=api_time, APIHttpTime=api_http_time,
-                                CanaryTime=canaryres_time, AdminTime=admin_time),
+                                CanaryTime=canaryres_time, AdminTime=admin_time,
+                                WebappDNS=dns_name),
                     "utf-8"
                 )
             )
@@ -532,7 +534,7 @@ def run(argv):
     # Get commandline arguments
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('server.py -s <server_ip> -p <server_port> -r <AWS region> -b <S3 bucket>')
+            print('server.py -s <server_ip> -p <server_port> -r <AWS region> -b <S3 bucket> -d <webapp_lb_dns_name>')
             sys.exit()
         elif opt in ("-s", "--server_ip"):
             server_ip = arg
@@ -542,12 +544,14 @@ def run(argv):
             region = arg
         elif opt in ("-b", "--bucket"):
             bucket = arg
+        elif opt in ("-d", "--dns_name"):
+            dns_name = arg
 
     # start server
     print('starting server...')
     server_address = (server_ip, server_port)
 
-    handler = partial(RequestHandler, region, bucket)
+    handler = partial(RequestHandler, region, bucket, dns_name)
     httpd = HTTPServer(server_address, handler)
     print('running server...')
     httpd.serve_forever()
