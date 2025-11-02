@@ -505,14 +505,13 @@ def run(argv):
     try:
         opts, args = getopt.getopt(
             argv,
-            "hs:p:r:b:d:",
+            "hs:p:r:b:",
             [
                 "help",
                 "server_ip=",
                 "server_port=",
                 "region=",
-                "bucket=",
-                "dns_name="
+                "bucket="
             ]
         )
     except getopt.GetoptError:
