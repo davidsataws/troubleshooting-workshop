@@ -17,7 +17,7 @@
 
 __author__    = "Seth Eliot, David Schliemann"
 __email__     = "seliot@amazon.com, schliema@amazon.com"
-__copyright__ = "Copyright 2023 Amazon.com, Inc. or its affiliates. All Rights Reserved."
+__copyright__ = "Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved."
 __credits__   = ["Seth Eliot", "Adrian Hornsby", "David Schliemann"]
 
 import sys
