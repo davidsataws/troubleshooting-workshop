@@ -138,9 +138,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             apihttpoutput = '<span class="w3-text-green">SUCCESS</span>' if apihttp == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
             canaryoutput = '<span class="w3-text-green">SUCCESS</span>' if canaryres == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
             adminpoutput = '<span class="w3-text-green">SUCCESS</span>' if adminres == 'SUCCESS' else '<span class="w3-text-red">FAILED</span>'
-
-            print(f"canaryres: {canaryres}")
-            print(f"canaryoutput: {canaryoutput}")
+          
             # Send successful response status code.
             self.send_response(200)
 
