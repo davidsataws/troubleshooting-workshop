@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AWS Support Troubleshooting Workshop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico">
+<style>
+* {{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}}
+body {{
+  font-family: "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif;
+  background: #eaeded;
+  color: #16191f;
+  line-height: 1.5;
+}}
+.aws-header {{
+  background: #232f3e;
+  color: white;
+  padding: 16px 24px;
+  border-bottom: 4px solid #ff9900;
+}}
+.aws-header h1 {{
+  font-size: 20px;
+  font-weight: 400;
+}}
+.container {{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}}
+.page-header {{
+  background: white;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-left: 4px solid #ff9900;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}}
+.page-header h2 {{
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}}
+.page-header p {{
+  color: #545b64;
+}}
+.test-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}}
+.test-card {{
+  background: white;
+  border: 1px solid #d5dbdb;
+  border-radius: 2px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}}
+.test-card:hover {{
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}}
+.test-card h3 {{
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: #16191f;
+}}
+.test-status {{
+  font-size: 16px;
+  font-weight: 700;
+  margin: 12px 0;
+}}
+.w3-text-green {{
+  color: #1d8102;
+}}
+.w3-text-red {{
+  color: #d13212;
+}}
+.test-metric {{
+  color: #545b64;
+  font-size: 14px;
+  margin: 8px 0;
+}}
+.aws-button {{
+  background: #ff9900;
+  color: #16191f;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-top: 12px;
+  transition: background 0.2s;
+}}
+.aws-button:hover {{
+  background: #ec7211;
+}}
+.aws-button-secondary {{
+  background: white;
+  color: #16191f;
+  border: 1px solid #aab7b8;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}}
+.aws-button-secondary:hover {{
+  background: #fafafa;
+  border-color: #16191f;
+}}
+.modal {{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}}
+.modal-content {{
+  background: white;
+  max-width: 600px;
+  margin: 80px auto;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  position: relative;
+}}
+.modal-header {{
+  background: #232f3e;
+  color: white;
+  padding: 20px 24px;
+  border-bottom: 2px solid #ff9900;
+  position: relative;
+}}
+.modal-header h3 {{
+  font-size: 20px;
+  font-weight: 400;
+}}
+.modal-close {{
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  opacity: 0.8;
+  line-height: 1;
+}}
+.modal-close:hover {{
+  opacity: 1;
+}}
+.modal-body {{
+  padding: 24px;
+  color: #16191f;
+}}
+.modal-body a {{
+  color: #0073bb;
+  text-decoration: none;
+}}
+.modal-body a:hover {{
+  text-decoration: underline;
+}}
+</style>
+</head>
+<body>
+
+<div class="aws-header" style="display: flex; justify-content: space-between; align-items: center;">
+  <h1>AWS Support Troubleshooting Workshop</h1>
+  <img src="https://d0.awsstatic.com/logos/powered-by-aws-white.png" alt="Powered by AWS" style="height: 40px;">
+</div>
+
+<div class="container">
+  <div class="page-header">
+    <h2>Web Server Diagnostics</h2>
+    <p>Test the connectivity and health of various AWS services and dependencies</p>
+    <button class="aws-button-secondary" onclick="document.getElementById('helpModal').style.display='block'" style="margin-top: 16px;">View Instructions</button>
+  </div>
+
+  <div class="test-grid">
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/dynamodb_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>Amazon DynamoDB</h3>
+      <div class="test-status">{DDBTestString}</div>
+      <div class="test-metric">Response time: {DDBTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('ddbModal').style.display='block'">Details</button>
+    </div>
+
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/s3_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>Amazon S3</h3>
+      <div class="test-status">{S3TestString}</div>
+      <div class="test-metric">Response time: {S3Time} ms</div>
+      <button class="aws-button" onclick="document.getElementById('s3Modal').style.display='block'">Details</button>
+    </div>
+
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/external_dependency_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>External Dependency</h3>
+      <div class="test-status">{ExtServerTestString}</div>
+      <div class="test-metric">Response time: {ExtGetTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('extModal').style.display='block'">Details</button>
+    </div>
+
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/metadata_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>EC2 Metadata</h3>
+      <div class="test-status">{MetadataTestString}</div>
+      <div class="test-metric">Response time: {MetaDataTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('ec2Modal').style.display='block'">Details</button>
+    </div>
+
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/route53_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>Route53 VPC DNS</h3>
+      <div class="test-status">{DNSTestString}</div>
+      <div class="test-metric">Response time: {DNSGetTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('dnsModal').style.display='block'">Details</button>
+    </div>
+
+    <div class="test-card">
+      <img src="https://github.com/davidsataws/troubleshooting-workshop/raw/main/static/networking/self-paced/assets/three-tier-webstack/systems_manager_logo.png" alt="" style="width: 48px; margin-bottom: 12px;">
+      <h3>AWS Systems Manager</h3>
+      <div class="test-status">{SSMTestString}</div>
+      <div class="test-metric">Response time: {SSMTime} ms</div>
+      <button class="aws-button" onclick="document.getElementById('ssmModal').style.display='block'">Details</button>
+    </div>
+  </div>
+</div>
+
+<div id="helpModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Workshop Instructions</h3>
+      <span class="modal-close" onclick="document.getElementById('helpModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p><strong>Follow the Workshop Page for step-by-step guidance, hints and tips.</strong></p>
+      <p style="margin-top: 12px;">The tests on this webpage indicate which dependencies are functioning correctly within the webserver code.</p>
+      <p style="margin-top: 12px;">Your task is to find out why some are failing and to fix them, without changing code on the webserver.</p>
+      <p style="margin-top: 16px; color: #1d8102; font-weight: 700;">Good Luck!</p>
+    </div>
+  </div>
+</div>
+
+<div id="ddbModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Amazon DynamoDB Test</h3>
+      <span class="modal-close" onclick="document.getElementById('ddbModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls DynamoDB using the GetItem API to retrieve data from a table. It requires the appropriate network routing and IAM permissions for the table, the VPC Endpoint and the Instance role.</p>
+    </div>
+  </div>
+</div>
+
+<div id="s3Modal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Amazon S3 Test</h3>
+      <span class="modal-close" onclick="document.getElementById('s3Modal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test attempts to retrieve an object from S3: s3://{BucketNameString}/artifacts/three-tier-webstack/s3_get_green_checkmark.png. This test requires the appropriate network configuration (security group rules, network ACLs, routing) as well as the correct IAM permissions for the bucket, the VPC Endpoint and the instance role.</p>
+    </div>
+  </div>
+</div>
+
+<div id="extModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>External Dependency Test</h3>
+      <span class="modal-close" onclick="document.getElementById('extModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test performs an HTTP (port 80) GET request to 1.1.1.1.</p>
+    </div>
+  </div>
+</div>
+
+<div id="ec2Modal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>EC2 Instance Metadata Service Test</h3>
+      <span class="modal-close" onclick="document.getElementById('ec2Modal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls the EC2 Instance Metadata service to obtain a number of details: availability zone, instance ID, instance type, private hostname and private IP address. See the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html" target="_blank">documentation page</a> for more details.</p>
+    </div>
+  </div>
+</div>
+
+<div id="dnsModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Amazon Route53 VPC DNS Test</h3>
+      <span class="modal-close" onclick="document.getElementById('dnsModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test attempts to use the within-VPC Amazon Route 53 Resolver server to resolve the DNS record "aws.amazon.com". This test requires no connectivity outside of the VPC. See the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#AmazonDNS" target="_blank">documentation page</a> for more details.</p>
+    </div>
+  </div>
+</div>
+
+<div id="ssmModal" class="modal" onclick="if(event.target==this) this.style.display='none'">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>AWS Systems Manager Test</h3>
+      <span class="modal-close" onclick="document.getElementById('ssmModal').style.display='none'">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>This test calls SSM with the API call GetParameter to obtain configuration. It requires the appropriate network routing and IAM permissions.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
