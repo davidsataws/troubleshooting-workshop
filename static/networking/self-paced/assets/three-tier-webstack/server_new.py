@@ -508,17 +508,18 @@ def run(argv):
     try:
         opts, args = getopt.getopt(
             argv,
-            "hs:p:r:b:",
+            "hs:p:r:b:d:",
             [
                 "help",
                 "server_ip=",
                 "server_port=",
                 "region=",
-                "bucket="
+                "bucket=",
+                "dns_name="
             ]
         )
     except getopt.GetoptError:
-        print('server.py -s <server_ip> -p <server_port> -r <AWS region> -b <S3 bucket>')
+        print('server.py -s <server_ip> -p <server_port> -r <AWS region> -b <S3 bucket> -d <webapp_lb_dns_name>')
         logging.error(e)
         sys.exit(2)
     print(opts)
