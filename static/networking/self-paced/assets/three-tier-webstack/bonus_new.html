@@ -266,7 +266,7 @@ body {{
       <span class="modal-close" onclick="document.getElementById('canaryModal').style.display='none'">&times;</span>
     </div>
     <div class="modal-body">
-      <p>This test indicates the status of the <a href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#synthetics:/canary/detail/webapp-canary" target="_blank">CloudWatch Synthetics Canary</a> for the URL: http://{WebappDNS}/canary</p>
+      <p>This test indicates the status of the <a href="https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#synthetics:/canary/detail/webapp-canary" target="_blank">CloudWatch Synthetics Canary</a> for the URL: <a href="http://{WebappDNS}/canary" target="_blank">http://{WebappDNS}/canary</a></p>
     </div>
   </div>
 </div>
@@ -278,7 +278,7 @@ body {{
       <span class="modal-close" onclick="document.getElementById('adminModal').style.display='none'">&times;</span>
     </div>
     <div class="modal-body">
-      <p>This test calls http://{WebappDNS}/admin and should be sent to the appropriate admin webservers.</p>
+      <p>This test calls <a href="http://{WebappDNS}/admin" target="_blank">http://{WebappDNS}/admin</a> and should be sent to the appropriate admin webservers.</p>
     </div>
   </div>
 </div>
